@@ -78,6 +78,8 @@ namespace Mono.CSharp
 		readonly CompilationSourceFile source_file;
 
 		int? listener_id;
+
+		public bool AutoReset { get; set; }
 		
 		public Evaluator (CompilerContext ctx)
 		{
@@ -623,7 +625,8 @@ namespace Mono.CSharp
 		CSharpParser ParseString (ParseMode mode, string input, out bool partial_input)
 		{
 			partial_input = false;
-			Reset ();
+			if (AutoReset)
+				Reset ();
 
 			var enc = ctx.Settings.Encoding;
 			var s = new MemoryStream (enc.GetBytes (input));
